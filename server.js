@@ -32,3 +32,26 @@ app.get("/books/:id", (req, res) => {
   res.json(book);
 });
 
+// post
+
+app.post("/books", (req, res) => {
+    const {title, author, year} = req.body;
+    if(!title || !author || !year){
+        return res.status(400).json({
+            message: "Missin required fields: title, author, year"
+        });
+    }
+    const newId = books.length > 0? books[books.length - 1].id + 1 : 1;
+
+    const newBook = {id: newId, title, author, year};
+    books.push(newBook);
+
+    res.status(201).json({
+        message: "Book created successfully",
+        book: newBook
+    });
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`)
+});
