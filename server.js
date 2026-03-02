@@ -52,6 +52,25 @@ app.post("/books", (req, res) => {
     });
 });
 
+app.put("/books/:id", (req, res)=> {
+    const id = Number(req.params.id);
+    const book = books.find((b)=> b.id === id);
+    if(!book) return res.status(404).json({
+        message: "Book not found"
+    });
+
+    const { title, author, year} = req.body;
+
+    if(title !== undefined) book.title = title;
+    if(author !== undefined) book.author  = author ;
+    if(year === undefined) book.year = year;
+
+    res.json({
+        menssage: "Book updated successfully",
+        book
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 });
