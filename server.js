@@ -71,6 +71,20 @@ app.put("/books/:id", (req, res)=> {
     });
 });
 
+app.delete("/book/:id", (req, res) => {
+    const id = Number(req.params.id);
+    const bookToDelete = books.find((b) => b.id === id);
+
+      if (!bookToDelete) return res.status(404).json({ message: "Book not found" });
+
+  books = books.filter((b) => b.id !== id);
+
+  res.json({
+    message: "Book deleted successfully",
+    deleted: bookToDelete
+  });
+});
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 });
